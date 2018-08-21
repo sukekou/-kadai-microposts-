@@ -15,6 +15,18 @@
           <% if current_user == micropost.user %>
             <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
           <% end %>
+          
+          <% if current_user.likeing?(micropost) %>
+            <%= form_for(current_user.okiniiris.find_by(micropost_id: micropost.id), html: { method: :delete }) do |f| %>
+            <%= hidden_field_tag :micropost_id, micropost.id %>
+            <%= f.submit 'Like', class: 'btn btn-warning btn-xs' %>
+            <% end %>
+          <% else %>
+            <%= form_for(current_user.okiniiris.build) do |f| %>
+            <%= hidden_field_tag :micropost_id, micropost.id %>
+            <%= f.submit 'Like', class: 'btn btn-light btn-xs' %>
+            <% end %>
+          <% end %>
         </div>
       </div>
     </li>
